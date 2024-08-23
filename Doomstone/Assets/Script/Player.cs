@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     public bool isGrounded = false;
     public bool isFreezed = false;
+    public CameraShake cameraShake; // Reference to CameraShake script
 
     private Vector2 lastMovementDirection = Vector2.right; // Default to right
     private float moveInput = 0f; // Current movement input
@@ -22,6 +23,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        cameraShake = Camera.main.GetComponent<CameraShake>(); // Assuming the camera has the CameraShake script
     }
 
     // Update is called once per frame
@@ -68,6 +70,8 @@ public class Player : MonoBehaviour
         {
             isGrounded = true;
             jumpForce = 60;
+            isFreezed = false;
+            speed = 20;
         }
         else if (collider.CompareTag("Enemy"))
         {
@@ -77,23 +81,37 @@ public class Player : MonoBehaviour
         {
             isGrounded = true;
             jumpForce = 100;
+            isFreezed = false;
+            speed = 20;
         }
         else if (collider.CompareTag("YellowJumpPad"))
         {
             isGrounded = true;
             jumpForce = 80;
+            isFreezed = false;
+            speed = 20;
         }
         else if (collider.CompareTag("BluePad"))
         {
             isGrounded = true;
             isFreezed = true;
             jumpForce = 40;
-
+            speed = 10;
             // Use lastMovementDirection to apply force in the direction the player was moving
             rb.AddForce(lastMovementDirection * 100, ForceMode2D.Impulse);
 
             // Start the coroutine to move in the last direction while frozen
             StartCoroutine(MoveFrozen());
+        }
+        else if (collider.CompareTag("Traps"))
+        {
+            Hp -= 1;
+            // Check if HP is 3 or below and trigger camera shake
+            if (Hp <= 3)
+            {
+                StartCoroutine(cameraShake.Shake(10f, 3f)); // Adjust the duration and magnitude as needed
+            }
+            Debug.Log(Hp);
         }
     }
 
@@ -113,7 +131,7 @@ public class Player : MonoBehaviour
 
         // Stop the frozen movement after the duration
         rb.velocity = new Vector2(0, rb.velocity.y);
-        isFreezed = false;
+
         Debug.Log("Player has stopped moving after frozen period.");
     }
 
@@ -139,18 +157,4 @@ public class Player : MonoBehaviour
             }
         }
     }
-
-    // Method to deal damage to the enemy
-    /*void DealDamageToEnemy(GameObject enemy)
-    {
-        // Calculate damage based on jump force
-        int damage = Mathf.RoundToInt(jumpForce);
-
-        // Example enemy damage script interaction
-        Enemy enemyScript = enemy.GetComponent<Enemy>();
-        if (enemyScript != null)
-        {
-            enemyScript.TakeDamage(damage);
-        }
-    }*/
 }

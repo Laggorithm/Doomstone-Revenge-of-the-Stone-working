@@ -8,6 +8,7 @@ TagManager:
   - RedJumpPad
   - YellowJumpPad
   - BluePad
+  - Traps
   layers:
   - Default
   - TransparentFX
@@ -42,6 +43,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: traps
+    uniqueID: 1680890833
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
