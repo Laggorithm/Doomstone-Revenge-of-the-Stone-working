@@ -9,6 +9,9 @@ TagManager:
   - YellowJumpPad
   - BluePad
   - Traps
+  - BossRoomRight
+  - BossRoomLeft
+  - Exit
   layers:
   - Default
   - TransparentFX

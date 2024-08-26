@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -132,6 +133,16 @@ public class Player : MonoBehaviour
             }
             Debug.Log(Hp);
         }
+        else if (collider.CompareTag("Exit"))
+        {
+            SceneManager.UnloadSceneAsync("LevelOne");
+            SceneManager.LoadScene("BossRoomOne");
+           
+        }
+        else if (collider.CompareTag("IKZ"))
+        {
+            
+        }
     }
 
     // Coroutine to move the player in the direction of last movement while frozen
@@ -175,5 +186,10 @@ public class Player : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void UnloadSceneByName(string sceneName)
+    {
+        SceneManager.UnloadSceneAsync(sceneName);
     }
 }
