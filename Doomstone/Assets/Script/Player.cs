@@ -56,12 +56,31 @@ public class Player : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
 
-            // Apply a torque for free rotation
-            rb.AddTorque(rotationTorque * (rb.velocity.x > 0 ? 1 : -1), ForceMode2D.Impulse);
+            // Calculate desired rotation torque based on the current velocity direction
+            float desiredTorque = rotationTorque * (rb.velocity.x > 0 ? 1 : -1);
+
+            // Get the current rotation in degrees
+            float currentRotation = rb.rotation % 360f;
+
+            // Convert current rotation to a range between -180 and 180 degrees
+            if (currentRotation > 180f) currentRotation -= 360f;
+            else if (currentRotation < -180f) currentRotation += 360f;
+
+            // Define the maximum rotation angle limit (in degrees)
+            float maxRotationLimit = 45f;  // Adjust this value as needed
+
+            // Check if applying the torque would exceed the rotation limit
+            if ((desiredTorque > 0 && currentRotation < maxRotationLimit) ||
+                (desiredTorque < 0 && currentRotation > -maxRotationLimit))
+            {
+                rb.AddTorque(desiredTorque, ForceMode2D.Impulse);
+            }
 
             isGrounded = false;
         }
     }
+
+
 
     // Check if player is grounded or collides with a special object
     private void OnTriggerEnter2D(Collider2D collider)
