@@ -11,20 +11,24 @@ public class Player : MonoBehaviour
     public float slideFriction = 0.1f; // Friction factor to simulate sliding (deceleration)
     public float frozenMoveSpeed = 10f; // Speed while moving frozen
     public float frozenMoveDuration = 2f; // Duration for frozen movement
-
+    public BossCommonBehaviour bossCommonBehaviour;
     private Rigidbody2D rb;
     public bool isGrounded = false;
     public bool isFreezed = false;
     public CameraShake cameraShake; // Reference to CameraShake script
+    public int Dmg = 1;
 
     private Vector2 lastMovementDirection = Vector2.right; // Default to right
     private float moveInput = 0f; // Current movement input
+
+    public bool IsPlayerRight = false;
+    public bool IsPlayerLeft = false;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        cameraShake = Camera.main.GetComponent<CameraShake>(); // Assuming the camera has the CameraShake script
+        cameraShake = GetComponent<CameraShake>(); // Assuming the camera has the CameraShake script
     }
 
     // Update is called once per frame
@@ -95,7 +99,7 @@ public class Player : MonoBehaviour
         }
         else if (collider.CompareTag("Enemy"))
         {
-            //DealDamageToEnemy(collider.gameObject);
+            bossCommonBehaviour.Hp -= Dmg;
         }
         else if (collider.CompareTag("RedJumpPad"))
         {
@@ -146,6 +150,7 @@ public class Player : MonoBehaviour
             Scene currentScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(currentScene.name);
         }
+        
     }
 
     // Coroutine to move the player in the direction of last movement while frozen

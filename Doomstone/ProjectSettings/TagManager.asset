@@ -13,6 +13,7 @@ TagManager:
   - BossRoomLeft
   - Exit
   - IKZ
+  - Enemy
   layers:
   - Default
   - TransparentFX
