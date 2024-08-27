@@ -12,6 +12,7 @@ TagManager:
   - BossRoomRight
   - BossRoomLeft
   - Exit
+  - IKZ
   layers:
   - Default
   - TransparentFX

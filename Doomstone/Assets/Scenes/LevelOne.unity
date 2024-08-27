@@ -2185,6 +2185,7 @@ Transform:
   - {fileID: 2008488492}
   - {fileID: 1154446263}
   - {fileID: 659581042}
+  - {fileID: 1866809630}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7789,6 +7790,76 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e99c4d8190480574b890387ca0d032a9, type: 3}
+--- !u!1 &1866809629
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1866809630}
+  - component: {fileID: 1866809631}
+  m_Layer: 0
+  m_Name: IKZ
+  m_TagString: IKZ
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1866809630
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866809629}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 538108212}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!68 &1866809631
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866809629}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: 217.14003, y: 60.656727}
+  - {x: 200.23694, y: 45.64887}
+  - {x: 161.38159, y: 16.997547}
+  - {x: 84.19098, y: 10.51806}
+  - {x: 56.386948, y: -8.096699}
+  - {x: -17.441416, y: -6.9401436}
+  - {x: -24.220167, y: 7.2698326}
+  - {x: 6.7569027, y: 83.05307}
+  - {x: 71.93919, y: 82.59155}
+  - {x: 52.49726, y: 124.63167}
+  - {x: -20.359163, y: 82.02086}
+  - {x: -28.15087, y: 80.244354}
+  - {x: -99.405525, y: 83.683044}
+  - {x: -121.51931, y: 82.93097}
+  - {x: -132.80234, y: 87.437775}
+  - {x: -146.26582, y: 117.39812}
+  - {x: -153.32146, y: 126.930756}
+  - {x: -198.41885, y: 128.37039}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1001 &1891401008
 PrefabInstance:
   m_ObjectHideFlags: 0

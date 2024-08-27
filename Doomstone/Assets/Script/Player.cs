@@ -127,10 +127,12 @@ public class Player : MonoBehaviour
         {
             Hp -= 1;
             // Check if HP is 3 or below and trigger camera shake
-            if (Hp <= 3)
+            if (Hp <= 0)
             {
-                StartCoroutine(cameraShake.Shake(10f, 3f)); // Adjust the duration and magnitude as needed
+                Scene currentScene = SceneManager.GetActiveScene();
+                SceneManager.LoadScene(currentScene.name);
             }
+            
             Debug.Log(Hp);
         }
         else if (collider.CompareTag("Exit"))
@@ -141,7 +143,8 @@ public class Player : MonoBehaviour
         }
         else if (collider.CompareTag("IKZ"))
         {
-            
+            Scene currentScene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(currentScene.name);
         }
     }
 
