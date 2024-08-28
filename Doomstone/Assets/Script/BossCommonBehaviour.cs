@@ -14,20 +14,35 @@ public class BossCommonBehaviour : MonoBehaviour
     public float normalJumpForce = 10f; // Normal jump force
     public float doubleJumpFactor = 2f; // Factor by which to multiply the jump force for value 2
 
+    public GameObject leftProjectilePrefab; // Projectile prefab for the left direction
+    public GameObject rightProjectilePrefab; // Projectile prefab for the right direction
+    public float projectileSpeed = 10f; // Speed at which projectiles move
+    public float projectileLaunchDelay = 0.5f; // Delay before launching projectiles after airborne
+    public float projectileLifetime = 3f; // Lifetime of the projectile before it gets destroyed
+
     private Vector2 moveDirection;
     private float currentDistanceTraveled;
     private Rigidbody2D rb;
     private bool isGrounded = true; // Assume boss is grounded initially
-    private Animator animator;
+    private bool isHandlingAttack = false; // Track if the boss is currently handling an attack
+    private bool isPhaseTwo = false; // Track if the boss has entered phase two
+    private bool hasLaunchedProjectiles = false; // Ensure projectiles are launched only once per airborne state
+
+    public GameObject extraLeftProjectilePrefab; // New projectile prefab for the left direction
+    public GameObject extraRightProjectilePrefab; // New projectile prefab for the right direction
+    public Transform leftShootingPoint; // Shooting point for the left projectile
+    public Transform rightShootingPoint; // Shooting point for the right projectile
+    public Transform extraLeftShootingPoint; // Additional shooting point for the new left projectile
+    public Transform extraRightShootingPoint; // Additional shooting point for the new right projectile
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
 
-        InitializeAttackList();
+        InitializePhaseOne();
         PrintAttackList();  // Optional: To verify the list content in the console
 
+        // Initialize the boss movement
         SetRandomDirection();
         StartCoroutine(ChangeDirectionPeriodically());
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -36,20 +51,41 @@ public class BossCommonBehaviour : MonoBehaviour
     void Update()
     {
         MoveBoss();
-        HandleJump();
-
-        // Check the boss's HP and update the attack list if needed
-        if (Hp <= 3 && AttackList.Count < 10) // Adjust check as needed
+        if (!isHandlingAttack && isGrounded)
         {
-            UpdateAttackListForLowHp();
+            StartCoroutine(HandleJump());
+        }
+
+        if (Hp <= 3 && !isPhaseTwo)
+        {
+            EnterPhaseTwo();
+        }
+
+        if (Hp <= 0)
+        {
+            Destroy(gameObject); // Destroy the boss when HP reaches 0
+        }
+
+        // Handle projectile launching while grounded
+        if (isGrounded && !hasLaunchedProjectiles)
+        {
+            StartCoroutine(LaunchProjectiles());
         }
     }
 
-    void InitializeAttackList()
+    void InitializePhaseOne()
     {
-        // Initially, the attack list only contains 1x jumps
+        // Clear any existing attacks in the list
         AttackList.Clear();
-        for (int i = 0; i < 10; i++) // Assuming you want 10 jumps initially, all of 1x
+
+        // Add 4 "0"s to the AttackList (no action)
+        for (int i = 0; i < 4; i++)
+        {
+            AttackList.Add(0);
+        }
+
+        // Add 6 "1"s to the AttackList (normal jump)
+        for (int i = 0; i < 6; i++)
         {
             AttackList.Add(1);
         }
@@ -58,22 +94,37 @@ public class BossCommonBehaviour : MonoBehaviour
         ShuffleList(AttackList);
     }
 
-    void UpdateAttackListForLowHp()
+    void EnterPhaseTwo()
     {
-        // Replace the attack list with a new list containing 3x 2x jumps
+        isPhaseTwo = true; // Mark that the boss has entered phase two
+        Hp = 10; // Heal the boss to 10 HP
+
+        // Clear the existing AttackList and initialize phase two attacks
         AttackList.Clear();
-        for (int i = 0; i < 7; i++) // Assuming you want 7 jumps of 1x
+
+        
+        // Add 6 "0"s to the AttackList (no action)
+        for (int i = 0; i < 6; i++)
+        {
+            AttackList.Add(0);
+        }
+
+        // Add 9 "1"s to the AttackList (normal jump)
+        for (int i = 0; i < 9; i++)
         {
             AttackList.Add(1);
         }
 
-        for (int i = 0; i < 3; i++) // 3 jumps of 2x
+        // Add 5 "2"s to the AttackList (double jump)
+        for (int i = 0; i < 5; i++)
         {
             AttackList.Add(2);
         }
 
         // Shuffle the list to randomize the order
         ShuffleList(AttackList);
+
+        PrintAttackList();  // Optional: To verify the list content in the console
     }
 
     void ShuffleList(List<int> list)
@@ -128,36 +179,69 @@ public class BossCommonBehaviour : MonoBehaviour
         }
     }
 
-    void HandleJump()
+    IEnumerator HandleJump()
     {
-        if (AttackList.Count > 0 && isGrounded)
+        isHandlingAttack = true; // Set the flag to indicate the boss is handling an attack
+
+        while (AttackList.Count > 0 && isGrounded)
         {
             int attackId = AttackList[0]; // Get the first attack ID
             AttackList.RemoveAt(0); // Remove the attack ID from the list
 
-            // Determine the jump force based on attack ID
-            float jumpForce = attackId == 2 ? normalJumpForce * doubleJumpFactor : normalJumpForce;
+            if (attackId != 0) // Only perform action if attackId is not "0"
+            {
+                // Determine the jump force based on attack ID
+                float jumpForce = attackId == 2 ? normalJumpForce * doubleJumpFactor : normalJumpForce;
 
-            // Apply the jump force
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            isGrounded = false; // Set the boss to not grounded until it lands again
+                // Apply the jump force
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                isGrounded = false; // Set the boss to not grounded until it lands again
+            }
 
-            // Trigger the corresponding animation based on attack ID
-            TriggerJumpAnimation(attackId);
+            // Wait for 3 seconds before handling the next attack
+            yield return new WaitForSeconds(3f);
         }
+
+        isHandlingAttack = false; // Reset the flag after handling all attacks
     }
 
-    void TriggerJumpAnimation(int attackId)
+    IEnumerator LaunchProjectiles()
     {
-        if (attackId == 1)
+        hasLaunchedProjectiles = true; // Ensure projectiles are only launched once per grounded state
+
+        // Launch original projectiles if prefabs and shooting points are assigned
+        if (leftProjectilePrefab != null && leftShootingPoint != null)
         {
-            animator.SetTrigger("Jump1"); // Animation for 1x jump
+            GameObject leftProjectile = Instantiate(leftProjectilePrefab, leftShootingPoint.position, Quaternion.identity);
+            leftProjectile.GetComponent<Rigidbody2D>().velocity = new Vector2(-projectileSpeed, 0f);
+            Destroy(leftProjectile, projectileLifetime); // Destroy the projectile after its lifetime expires
         }
-        else if (attackId == 2)
+
+        if (rightProjectilePrefab != null && rightShootingPoint != null)
         {
-            animator.SetTrigger("Jump2"); // Animation for 2x jump
+            GameObject rightProjectile = Instantiate(rightProjectilePrefab, rightShootingPoint.position, Quaternion.identity);
+            rightProjectile.GetComponent<Rigidbody2D>().velocity = new Vector2(projectileSpeed, 0f);
+            Destroy(rightProjectile, projectileLifetime); // Destroy the projectile after its lifetime expires
         }
+
+        // Launch new projectiles if prefabs and shooting points are assigned
+        if (extraLeftProjectilePrefab != null && extraLeftShootingPoint != null)
+        {
+            GameObject extraLeftProjectile = Instantiate(extraLeftProjectilePrefab, extraLeftShootingPoint.position, Quaternion.identity);
+            extraLeftProjectile.GetComponent<Rigidbody2D>().velocity = new Vector2(-projectileSpeed, 0f);
+            Destroy(extraLeftProjectile, projectileLifetime); // Destroy the projectile after its lifetime expires
+        }
+
+        if (extraRightProjectilePrefab != null && extraRightShootingPoint != null)
+        {
+            GameObject extraRightProjectile = Instantiate(extraRightProjectilePrefab, extraRightShootingPoint.position, Quaternion.identity);
+            extraRightProjectile.GetComponent<Rigidbody2D>().velocity = new Vector2(projectileSpeed, 0f);
+            Destroy(extraRightProjectile, projectileLifetime); // Destroy the projectile after its lifetime expires
+        }
+
+        yield return null; // Yielding null to end the coroutine
     }
+
 
     // Handle collision with the ground to reset isGrounded
     private void OnCollisionEnter2D(Collision2D collision)
@@ -165,6 +249,18 @@ public class BossCommonBehaviour : MonoBehaviour
         if (collision.collider.CompareTag("Ground"))
         {
             isGrounded = true;
+            hasLaunchedProjectiles = false; // Reset projectile launch flag when grounded
+
+            // Ensure no active projectiles remain
+            // This will be managed by projectile lifetime
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Ground"))
+        {
+            isGrounded = false;
         }
     }
 }
