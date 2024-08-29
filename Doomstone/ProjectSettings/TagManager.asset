@@ -15,6 +15,7 @@ TagManager:
   - IKZ
   - Enemy
   - Borders
+  - Projectile
   layers:
   - Default
   - TransparentFX

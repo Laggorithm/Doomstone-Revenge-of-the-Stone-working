@@ -1,18 +1,21 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
     public float speed = 5f; // Movement speed
     public float jumpForce = 10f; // Fixed jump force
-    public int Hp = 5; // Player health
+    public double Hp = 5; // Player health
     public float rotationTorque = 5f; // Torque applied when jumping
     public float slideFriction = 0.1f; // Friction factor to simulate sliding (deceleration)
     public float frozenMoveSpeed = 10f; // Speed while moving frozen
     public float frozenMoveDuration = 2f; // Duration for frozen movement
     public BossCommonBehaviour bossCommonBehaviour;
     private Rigidbody2D rb;
+    public Transform spawnPointBoss;
+    public Transform spawnPointLevelOne;
     public bool isGrounded = false;
     public bool isFreezed = false;
     public CameraShake cameraShake; // Reference to CameraShake script
@@ -36,6 +39,13 @@ public class Player : MonoBehaviour
     {
         Move();
         Jump();
+
+        if (Hp <= 0)
+        {
+            Scene currentScene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(currentScene.name);
+        }
+
     }
 
     // Method to handle player movement
@@ -100,18 +110,20 @@ public class Player : MonoBehaviour
         else if (collider.CompareTag("Enemy"))
         {
             bossCommonBehaviour.Hp -= Dmg;
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            rb.velocity = new Vector2(rb.velocity.y, jumpForce);
         }
         else if (collider.CompareTag("RedJumpPad"))
         {
             isGrounded = true;
-            jumpForce = 100;
+            rb.velocity = new Vector2(rb.velocity.x, 100);
             isFreezed = false;
             speed = 20;
         }
         else if (collider.CompareTag("YellowJumpPad"))
         {
             isGrounded = true;
-            jumpForce = 80;
+            rb.velocity = new Vector2(rb.velocity.x, 80);
             isFreezed = false;
             speed = 20;
         }
@@ -150,7 +162,22 @@ public class Player : MonoBehaviour
             Scene currentScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(currentScene.name);
         }
+        else if (collider.CompareTag("Projectile"))
+        {
+            Hp -= 0.3;
+        }
         
+    }
+
+    public void SceneManagment()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+        string currentSceneName = currentScene.name;
+        switch (currentSceneName)
+        {
+            case ("BossRoomOne"):transform.position = spawnPointBoss.position; break;
+            case ("LevelOne"):transform.position = spawnPointLevelOne.position; break;
+        }
     }
 
     // Coroutine to move the player in the direction of last movement while frozen
