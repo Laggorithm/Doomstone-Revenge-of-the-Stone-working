@@ -668,8 +668,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 1, g: 0.04150939, b: 0.04150939, a: 1}
-      maxColor: {r: 0.5471698, g: 0.026583148, b: 0, a: 1}
+      minColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 0.31132078, g: 0, b: 0, a: 1}
@@ -1179,11 +1179,11 @@ ParticleSystem:
     m_MeshRenderer: {fileID: 0}
     m_SkinnedMeshRenderer: {fileID: 0}
     m_Sprite: {fileID: 0}
-    m_SpriteRenderer: {fileID: 0}
+    m_SpriteRenderer: {fileID: 1508751138}
     m_UseMeshMaterialIndex: 0
     m_UseMeshColors: 1
     alignToDirection: 0
-    m_Texture: {fileID: 0}
+    m_Texture: {fileID: 2800000, guid: 3706dc1bacf91e9408744928e487a1e5, type: 3}
     m_TextureClipChannel: 3
     m_TextureClipThreshold: 0
     m_TextureUVChannel: 0
@@ -1423,7 +1423,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 250
+        scalar: 500
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -6150,6 +6150,11 @@ Transform:
 --- !u!4 &1508751136 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8954063814569186418, guid: 44e9d43ca0869364fa7fd2dae2e0685e, type: 3}
+  m_PrefabInstance: {fileID: 1860033650}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1508751138 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6519388822108955316, guid: 44e9d43ca0869364fa7fd2dae2e0685e, type: 3}
   m_PrefabInstance: {fileID: 1860033650}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1601235826

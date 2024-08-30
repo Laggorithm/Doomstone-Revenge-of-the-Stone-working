@@ -7,22 +7,21 @@ public class BossCommonBehaviour : MonoBehaviour
     private List<int> AttackList = new List<int>();
     public Player player;
     public int Hp = 5;
-
     public float moveSpeed = 5f;
     public float minTravelDistance = 5f;
     public float directionChangeInterval = 3f;
     public float normalJumpForce = 10f;
     public float doubleJumpFactor = 2f;
-
-    public GameObject leftProjectilePrefab;
-    public GameObject rightProjectilePrefab;
     public float projectileSpeed = 10f;
     public float projectileLaunchDelay = 0.5f;
     public float projectileLifetime = 3f;
+    private float currentDistanceTraveled;
+
+    private Rigidbody2D rb;
 
     private Vector2 moveDirection;
-    private float currentDistanceTraveled;
-    private Rigidbody2D rb;
+    
+    
     private bool isGrounded = true;
     private bool isHandlingAttack = false;
     private bool isPhaseTwo = false;
@@ -34,9 +33,18 @@ public class BossCommonBehaviour : MonoBehaviour
     public Transform rightShootingPoint;
     public Transform extraLeftShootingPoint;
     public Transform extraRightShootingPoint;
+    public GameObject leftProjectilePrefab;
+    public GameObject rightProjectilePrefab;
+
+    public Sprite BossPhaseOne;
+    public Sprite BossPhaseTwo;
+    public Sprite BossPhaseDead;
+
+
 
     void Start()
     {
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
 
         InitializePhaseOne();
@@ -48,6 +56,8 @@ public class BossCommonBehaviour : MonoBehaviour
 
         StartCoroutine(ShootExtraLeftProjectile());
         StartCoroutine(ShootExtraRightProjectile());
+
+        spriteRenderer.sprite = BossPhaseOne;
     }
 
     void Update()
@@ -65,7 +75,7 @@ public class BossCommonBehaviour : MonoBehaviour
 
         if (Hp <= 0)
         {
-            Destroy(gameObject);
+            GoDead();
         }
 
         if (isGrounded && !hasLaunchedProjectiles)
@@ -96,6 +106,9 @@ public class BossCommonBehaviour : MonoBehaviour
 
     void EnterPhaseTwo()
     {
+
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = BossPhaseTwo;
         isPhaseTwo = true;
         Hp = 10;
 
@@ -118,6 +131,23 @@ public class BossCommonBehaviour : MonoBehaviour
 
         ShuffleList(AttackList);
         PrintAttackList();
+    }
+    
+    void GoDead()
+    {
+
+
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+
+        spriteRenderer.sprite = BossPhaseDead;
+        
+        extraLeftShootingPoint.gameObject.SetActive(false); 
+        extraRightShootingPoint.gameObject.SetActive(false);
+
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+
+        moveSpeed = 0;
+
     }
 
     void ShuffleList(List<int> list)
