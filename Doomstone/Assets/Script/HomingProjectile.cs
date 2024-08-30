@@ -56,10 +56,11 @@ public class HomingProjectile : MonoBehaviour
              
             Destroy(gameObject);
         }
-        else if (other.CompareTag("Obstacle"))
+        else if (other.CompareTag("Ground"))
         {
             // Handle collision with other objects, like obstacles
             Destroy(gameObject);
         }
+
     }
 }

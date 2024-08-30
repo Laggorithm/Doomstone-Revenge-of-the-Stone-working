@@ -35,6 +35,7 @@ public class BossCommonBehaviour : MonoBehaviour
     public Transform extraRightShootingPoint;
     public GameObject leftProjectilePrefab;
     public GameObject rightProjectilePrefab;
+    public ParticleSystem Particles;
 
     public Sprite BossPhaseOne;
     public Sprite BossPhaseTwo;
@@ -44,6 +45,7 @@ public class BossCommonBehaviour : MonoBehaviour
 
     void Start()
     {
+        
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
 
@@ -75,7 +77,9 @@ public class BossCommonBehaviour : MonoBehaviour
 
         if (Hp <= 0)
         {
+            Particles.Play();
             GoDead();
+            
         }
 
         if (isGrounded && !hasLaunchedProjectiles)
@@ -89,6 +93,10 @@ public class BossCommonBehaviour : MonoBehaviour
 
     void InitializePhaseOne()
     {
+        Particles = GetComponent<ParticleSystem>();
+        Particles.Play();
+         
+        
         AttackList.Clear();
 
         for (int i = 0; i < 4; i++)
@@ -106,7 +114,8 @@ public class BossCommonBehaviour : MonoBehaviour
 
     void EnterPhaseTwo()
     {
-
+        Particles = GetComponent<ParticleSystem>();
+        Particles.Play();
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = BossPhaseTwo;
         isPhaseTwo = true;
@@ -136,7 +145,8 @@ public class BossCommonBehaviour : MonoBehaviour
     void GoDead()
     {
 
-
+        Particles = GetComponent<ParticleSystem>();
+        
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
         spriteRenderer.sprite = BossPhaseDead;
@@ -147,7 +157,7 @@ public class BossCommonBehaviour : MonoBehaviour
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
         moveSpeed = 0;
-
+        Particles.Stop();
     }
 
     void ShuffleList(List<int> list)
