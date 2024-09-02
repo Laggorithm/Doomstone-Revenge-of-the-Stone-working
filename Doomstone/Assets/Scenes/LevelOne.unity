@@ -8843,6 +8843,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 519420034}
     - target: {fileID: 3391688545973234243, guid: 19442651d7ab31f409882d68b52b1827, type: 3}
+      propertyPath: Player1
+      value: 
+      objectReference: {fileID: 21300000, guid: 36d218d1fa984f247905ee778d17273c, type: 3}
+    - target: {fileID: 3391688545973234243, guid: 19442651d7ab31f409882d68b52b1827, type: 3}
+      propertyPath: Player2
+      value: 
+      objectReference: {fileID: 21300000, guid: a60565aa1a5f3e744a9f0c6855758832, type: 3}
+    - target: {fileID: 3391688545973234243, guid: 19442651d7ab31f409882d68b52b1827, type: 3}
+      propertyPath: Player3
+      value: 
+      objectReference: {fileID: 21300000, guid: abef0a82eeeae0c4db607ab81fe015ea, type: 3}
+    - target: {fileID: 3391688545973234243, guid: 19442651d7ab31f409882d68b52b1827, type: 3}
+      propertyPath: Player4
+      value: 
+      objectReference: {fileID: 21300000, guid: ecea15c8463568345abb0fd84bb09c05, type: 3}
+    - target: {fileID: 3391688545973234243, guid: 19442651d7ab31f409882d68b52b1827, type: 3}
       propertyPath: cameraShake
       value: 
       objectReference: {fileID: 519420034}

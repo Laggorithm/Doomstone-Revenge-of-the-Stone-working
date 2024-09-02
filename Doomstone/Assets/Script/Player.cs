@@ -27,9 +27,16 @@ public class Player : MonoBehaviour
     public bool IsPlayerRight = false;
     public bool IsPlayerLeft = false;
 
+    public Sprite Player1;
+    public Sprite Player2;
+    public Sprite Player3;
+    public Sprite Player4;
+
     // Start is called before the first frame update
     void Start()
     {
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = Player1;
         rb = GetComponent<Rigidbody2D>();
         cameraShake = GetComponent<CameraShake>(); // Assuming the camera has the CameraShake script
     }
@@ -102,6 +109,8 @@ public class Player : MonoBehaviour
     {
         if (collider.CompareTag("Ground"))
         {
+            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer.sprite = Player1;
             isGrounded = true;
             jumpForce = 60;
             isFreezed = false;
@@ -115,6 +124,8 @@ public class Player : MonoBehaviour
         }
         else if (collider.CompareTag("RedJumpPad"))
         {
+            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer.sprite = Player2;
             isGrounded = true;
             rb.velocity = new Vector2(rb.velocity.x, 100);
             isFreezed = false;
@@ -122,6 +133,8 @@ public class Player : MonoBehaviour
         }
         else if (collider.CompareTag("YellowJumpPad"))
         {
+            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer.sprite = Player3;
             isGrounded = true;
             rb.velocity = new Vector2(rb.velocity.x, 80);
             isFreezed = false;
@@ -129,6 +142,8 @@ public class Player : MonoBehaviour
         }
         else if (collider.CompareTag("BluePad"))
         {
+            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer.sprite = Player4;
             isGrounded = true;
             isFreezed = true;
             jumpForce = 40;
