@@ -16,6 +16,8 @@ public class BossCommonBehaviour : MonoBehaviour
     public float projectileLaunchDelay = 0.5f;
     public float projectileLifetime = 3f;
     private float currentDistanceTraveled;
+    public int MaxProjectiles;
+    public int Projectilecd = 3;
 
     private Rigidbody2D rb;
 
@@ -73,6 +75,7 @@ public class BossCommonBehaviour : MonoBehaviour
         if (Hp <= 3 && !isPhaseTwo)
         {
             EnterPhaseTwo();
+            
         }
 
         if (Hp <= 0)
@@ -114,6 +117,7 @@ public class BossCommonBehaviour : MonoBehaviour
 
     void EnterPhaseTwo()
     {
+        
         Particles = GetComponent<ParticleSystem>();
         Particles.Play();
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
@@ -222,7 +226,7 @@ public class BossCommonBehaviour : MonoBehaviour
                 isGrounded = false;
             }
 
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(3);
         }
 
         isHandlingAttack = false;
@@ -268,7 +272,7 @@ public class BossCommonBehaviour : MonoBehaviour
 
                 Destroy(extraLeftProjectile, projectileLifetime);
             }
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(Projectilecd);
         }
     }
 
@@ -289,7 +293,7 @@ public class BossCommonBehaviour : MonoBehaviour
 
                 Destroy(extraRightProjectile, projectileLifetime);
             }
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(Projectilecd);
         }
     }
 
