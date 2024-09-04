@@ -478,23 +478,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 3391688545973234243, guid: 19442651d7ab31f409882d68b52b1827, type: 3}
-  Hp: -28
+  Hp: 10
   moveSpeed: 5
   minTravelDistance: 19
   directionChangeInterval: 3
   normalJumpForce: 40
   doubleJumpFactor: 2
-  leftProjectilePrefab: {fileID: 7112213703463617205, guid: 76f55d52e7901d24aa3355bbfec04d72, type: 3}
-  rightProjectilePrefab: {fileID: 1647433015184777088, guid: 800d212fd40a3ce4e823f2ff01545e18, type: 3}
   projectileSpeed: 35
   projectileLaunchDelay: 0.5
   projectileLifetime: 5
+  MaxProjectiles: 0
+  Projectilecd: 3
   extraLeftProjectilePrefab: {fileID: 8046393706630762544, guid: 66a9a314dccc30a4cb956aaadabd1791, type: 3}
   extraRightProjectilePrefab: {fileID: 8046393706630762544, guid: 66a9a314dccc30a4cb956aaadabd1791, type: 3}
   leftShootingPoint: {fileID: 1545969002871340969}
   rightShootingPoint: {fileID: 2056593002104602335}
   extraLeftShootingPoint: {fileID: 9039349203262657605}
   extraRightShootingPoint: {fileID: 457643000171119453}
+  leftProjectilePrefab: {fileID: 7112213703463617205, guid: 76f55d52e7901d24aa3355bbfec04d72, type: 3}
+  rightProjectilePrefab: {fileID: 1647433015184777088, guid: 800d212fd40a3ce4e823f2ff01545e18, type: 3}
+  Particles: {fileID: 0}
+  BossPhaseOne: {fileID: 0}
+  BossPhaseTwo: {fileID: 0}
+  BossPhaseDead: {fileID: 0}
 --- !u!50 &8247149572939778017
 Rigidbody2D:
   serializedVersion: 4

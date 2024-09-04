@@ -16,6 +16,7 @@ TagManager:
   - Enemy
   - Borders
   - Projectile
+  - Exit2
   layers:
   - Default
   - TransparentFX

@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     public bool isGrounded = false;
     public bool isFreezed = false;
     public CameraShake cameraShake; // Reference to CameraShake script
-    public int Dmg = 1;
+    public static int Dmg = 1;
 
     private Vector2 lastMovementDirection = Vector2.right; // Default to right
     private float moveInput = 0f; // Current movement input
@@ -180,6 +180,15 @@ public class Player : MonoBehaviour
         else if (collider.CompareTag("Projectile"))
         {
             Hp -= 0.3;
+        }
+       else if (collider.CompareTag("Borders"))
+        {
+            SceneManager.LoadScene("LevelTwo");
+        }
+        else if (collider.CompareTag("Exit2")) 
+        {
+            SceneManager.LoadScene("BossRoomTwo");
+
         }
         
     }

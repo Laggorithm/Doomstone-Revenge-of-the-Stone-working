@@ -82,6 +82,7 @@ public class BossCommonBehaviour : MonoBehaviour
         {
             Particles.Play();
             GoDead();
+            Player.Dmg = 2;
             
         }
 
