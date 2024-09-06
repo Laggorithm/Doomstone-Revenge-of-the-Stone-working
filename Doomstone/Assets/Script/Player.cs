@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -7,7 +8,7 @@ public class Player : MonoBehaviour
 {
     public float speed = 5f; // Movement speed
     public float jumpForce = 10f; // Fixed jump force
-    public double Hp = 5; // Player health
+    public static double Hp = 5; // Player health
     public float rotationTorque = 5f; // Torque applied when jumping
     public float slideFriction = 0.1f; // Friction factor to simulate sliding (deceleration)
     public float frozenMoveSpeed = 10f; // Speed while moving frozen
@@ -16,7 +17,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     public Transform spawnPointBoss;
     public Transform spawnPointLevelOne;
-    public bool isGrounded = false;
+    public static bool isGrounded = false;
     public bool isFreezed = false;
     public CameraShake cameraShake; // Reference to CameraShake script
     public static int Dmg = 1;
@@ -24,17 +25,18 @@ public class Player : MonoBehaviour
     private Vector2 lastMovementDirection = Vector2.right; // Default to right
     private float moveInput = 0f; // Current movement input
 
-    public bool IsPlayerRight = false;
-    public bool IsPlayerLeft = false;
+     
 
     public Sprite Player1;
     public Sprite Player2;
     public Sprite Player3;
     public Sprite Player4;
 
+
     // Start is called before the first frame update
     void Start()
     {
+        Hp = 5;
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = Player1;
         rb = GetComponent<Rigidbody2D>();
@@ -118,9 +120,14 @@ public class Player : MonoBehaviour
         }
         else if (collider.CompareTag("Enemy"))
         {
-            bossCommonBehaviour.Hp -= Dmg;
+            BossCommonBehaviour.Hp -= Dmg;
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             rb.velocity = new Vector2(rb.velocity.y, jumpForce);
+            if (bossCommonBehaviour.isPhaseTwo == true)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, 2* jumpForce);
+                rb.velocity = new Vector2(rb.velocity.y, 2* jumpForce);
+            }
         }
         else if (collider.CompareTag("RedJumpPad"))
         {
@@ -162,12 +169,14 @@ public class Player : MonoBehaviour
             {
                 Scene currentScene = SceneManager.GetActiveScene();
                 SceneManager.LoadScene(currentScene.name);
+                Hp = 5;
             }
             
             Debug.Log(Hp);
         }
         else if (collider.CompareTag("Exit"))
         {
+            Hp = 5;
             SceneManager.UnloadSceneAsync("LevelOne");
             SceneManager.LoadScene("BossRoomOne");
            
@@ -183,10 +192,12 @@ public class Player : MonoBehaviour
         }
        else if (collider.CompareTag("Borders"))
         {
+            Hp = 5;
             SceneManager.LoadScene("LevelTwo");
         }
         else if (collider.CompareTag("Exit2")) 
         {
+            Hp = 5;
             SceneManager.LoadScene("BossRoomTwo");
 
         }

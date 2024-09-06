@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BossCommonBehaviour : MonoBehaviour
 {
     private List<int> AttackList = new List<int>();
     public Player player;
-    public int Hp = 5;
+    public static int Hp = 5;
     public float moveSpeed = 5f;
     public float minTravelDistance = 5f;
     public float directionChangeInterval = 3f;
@@ -26,7 +27,7 @@ public class BossCommonBehaviour : MonoBehaviour
     
     private bool isGrounded = true;
     private bool isHandlingAttack = false;
-    private bool isPhaseTwo = false;
+    public bool isPhaseTwo = false;
     private bool hasLaunchedProjectiles = false;
 
     public GameObject extraLeftProjectilePrefab;
@@ -43,11 +44,14 @@ public class BossCommonBehaviour : MonoBehaviour
     public Sprite BossPhaseTwo;
     public Sprite BossPhaseDead;
 
-
-
     void Start()
     {
-        
+        Scene currentScene = SceneManager.GetActiveScene();
+        if (currentScene.name == "BossRoomTwo")
+        {
+            Hp = 30;
+        }
+
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
 
@@ -75,7 +79,11 @@ public class BossCommonBehaviour : MonoBehaviour
         if (Hp <= 3 && !isPhaseTwo)
         {
             EnterPhaseTwo();
-            
+            Scene currentScene = SceneManager.GetActiveScene();
+            if (currentScene.name == "BossRoomTwo")
+            {
+                Hp = 20;
+            }
         }
 
         if (Hp <= 0)
