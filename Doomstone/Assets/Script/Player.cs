@@ -61,7 +61,7 @@ public class Player : MonoBehaviour
             SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = Player6;
             cam = Camera.main;
-            cam.orthographicSize = 11;
+            cam.orthographicSize =
             cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, 11f, 23f);
         }
 
