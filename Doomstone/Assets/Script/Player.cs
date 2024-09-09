@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     public CameraShake cameraShake; // Reference to CameraShake script
     public static int Dmg = 1;
 
+    public Camera cam;
+
     private Vector2 lastMovementDirection = Vector2.right; // Default to right
     private float moveInput = 0f; // Current movement input
 
@@ -31,6 +33,8 @@ public class Player : MonoBehaviour
     public Sprite Player2;
     public Sprite Player3;
     public Sprite Player4;
+    public Sprite Player5;
+    public Sprite Player6;
 
 
     // Start is called before the first frame update
@@ -46,15 +50,29 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         Move();
         Jump();
 
         if (Hp <= 0)
         {
-            Scene currentScene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(currentScene.name);
+            StartCoroutine(ReloadSceneAfterDelay(5f));
+            FreezePlayerMovement();
+            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer.sprite = Player6;
+            cam = Camera.main;
+            cam.orthographicSize = 11;
+            cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, 11f, 23f);
         }
 
+        switch(Dmg)
+        {
+            case 2: {
+                    SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+                    spriteRenderer.sprite = Player5;
+                }
+                break;
+        }
     }
 
     // Method to handle player movement
@@ -72,7 +90,17 @@ public class Player : MonoBehaviour
         // Apply movement input to velocity
         rb.velocity = new Vector2(movement.x, rb.velocity.y);
     }
+    private IEnumerator ReloadSceneAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay); // Wait for the given delay (5 seconds)
 
+        // Get the active scene
+        Scene currentScene = SceneManager.GetActiveScene();
+
+        // Reload the current scene
+        SceneManager.LoadScene(currentScene.name);
+        
+    }
     // Method to handle player jumping
     void Jump()
     {
@@ -104,7 +132,7 @@ public class Player : MonoBehaviour
         }
     }
 
-
+  
 
     // Check if player is grounded or collides with a special object
     private void OnTriggerEnter2D(Collider2D collider)
@@ -167,9 +195,9 @@ public class Player : MonoBehaviour
             // Check if HP is 3 or below and trigger camera shake
             if (Hp <= 0)
             {
-                Scene currentScene = SceneManager.GetActiveScene();
-                SceneManager.LoadScene(currentScene.name);
-                Hp = 5;
+                
+                FreezePlayerMovement();
+                StartCoroutine(ReloadSceneAfterDelay(5f));
             }
             
             Debug.Log(Hp);
@@ -257,6 +285,16 @@ public class Player : MonoBehaviour
             }
         }
     }
+
+    public void FreezePlayerMovement()
+    {
+        // Set the velocity to zero to stop movement
+        rb.velocity = Vector2.zero;
+
+        // Freeze the Rigidbody2D in both x and y directions (no movement, no rotation)
+        rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+    }
+
 
     public void UnloadSceneByName(string sceneName)
     {

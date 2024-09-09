@@ -128,7 +128,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 20
   jumpForce: 50
-  Hp: 5
   rotationTorque: -90
   slideFriction: 0.01
   frozenMoveSpeed: 50
@@ -136,12 +135,14 @@ MonoBehaviour:
   bossCommonBehaviour: {fileID: 1790919122783079004, guid: 44e9d43ca0869364fa7fd2dae2e0685e, type: 3}
   spawnPointBoss: {fileID: 9216729492038294393, guid: 3271df317673e3a4cb217507aadebc45, type: 3}
   spawnPointLevelOne: {fileID: 0}
-  isGrounded: 0
   isFreezed: 0
   cameraShake: {fileID: 3948787707645566487, guid: ceb6e8c35eb4d16419e2baf7c6774df7, type: 3}
-  Dmg: 1
-  IsPlayerRight: 0
-  IsPlayerLeft: 0
+  Player1: {fileID: 21300000, guid: 36d218d1fa984f247905ee778d17273c, type: 3}
+  Player2: {fileID: 21300000, guid: a60565aa1a5f3e744a9f0c6855758832, type: 3}
+  Player3: {fileID: 21300000, guid: abef0a82eeeae0c4db607ab81fe015ea, type: 3}
+  Player4: {fileID: 21300000, guid: ecea15c8463568345abb0fd84bb09c05, type: 3}
+  Player5: {fileID: 21300000, guid: b79c1ce13bdd62545b1882aac4c3adef, type: 3}
+  Player6: {fileID: 21300000, guid: 9e19f19599f2ec94c9385dcb778dbf72, type: 3}
 --- !u!50 &-101923644095875469
 Rigidbody2D:
   serializedVersion: 4

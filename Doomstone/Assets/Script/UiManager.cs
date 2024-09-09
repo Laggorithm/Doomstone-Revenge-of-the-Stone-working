@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UiManager : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class UiManager : MonoBehaviour
     public TMP_Text BHp;
     public TMP_Text DoubleJump;
     public TMP_Text Timer;
+    private int ElapsedTime;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -32,14 +35,21 @@ public class UiManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ElapsedTime = (int)TimerManager.elapsedTime;
         PHp.text = Player.Hp.ToString();
         BHp.text = BossCommonBehaviour.Hp.ToString();
+        Scene currentScene = SceneManager.GetActiveScene();
+        if (currentScene.name == "BossRoomTwo" || currentScene.name == "BossRoomOne")
+        {
+            BHp.gameObject.SetActive(true);
+        }
+        else { BHp.gameObject.SetActive(false);}
         if (Player.isGrounded == true)
         {
-            DoubleJump.text = ("1x jump available");
+            DoubleJump.text = ("1x jump");
         }
-        else { DoubleJump.text = ("0x"); }
-        Timer.text = TimerManager.elapsedTime.ToString();
+        else { DoubleJump.text = ("0x jumps"); }
+        Timer.text = ElapsedTime.ToString();
 
     }
 }

@@ -51,6 +51,10 @@ public class BossCommonBehaviour : MonoBehaviour
         {
             Hp = 30;
         }
+        if (currentScene.name == "BossRoomOne")
+        {
+            Hp = 10;
+        }
 
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
