@@ -20,4 +20,8 @@ public class MainMenu : MonoBehaviour
     {
         Controls.gameObject.SetActive(false);
     }
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }
