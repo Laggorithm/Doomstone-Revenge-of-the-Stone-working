@@ -175,6 +175,17 @@ public class BossCommonBehaviour : MonoBehaviour
 
         moveSpeed = 0;
         Particles.Stop();
+
+        Scene currentScene = SceneManager.GetActiveScene();
+        if (currentScene.name == "BossRoomTwo")
+        {
+
+            Application.Quit();
+
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif  
+        }
     }
 
     void ShuffleList(List<int> list)

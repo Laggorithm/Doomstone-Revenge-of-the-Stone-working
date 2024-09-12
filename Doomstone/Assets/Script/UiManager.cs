@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,7 +13,8 @@ public class UiManager : MonoBehaviour
     public TMP_Text DoubleJump;
     public TMP_Text Timer;
     private int ElapsedTime;
-
+    public GameObject dead;
+    public static bool IsDead;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -50,6 +52,13 @@ public class UiManager : MonoBehaviour
         }
         else { DoubleJump.text = ("0x jumps"); }
         Timer.text = ElapsedTime.ToString();
-
+        if (IsDead == true)
+        {
+            dead.gameObject.SetActive(true);
+        }
+        else if (IsDead == false)
+        {
+            dead.gameObject.SetActive(false);
+        }
     }
 }

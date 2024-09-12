@@ -35,11 +35,14 @@ public class Player : MonoBehaviour
     public Sprite Player4;
     public Sprite Player5;
     public Sprite Player6;
+    public Sprite Player7;
+    public Sprite Player8;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        UiManager.IsDead = false;
         Hp = 5;
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = Player1;
@@ -56,22 +59,55 @@ public class Player : MonoBehaviour
 
         if (Hp <= 0)
         {
-            StartCoroutine(ReloadSceneAfterDelay(5f));
-            FreezePlayerMovement();
+            Scene currentScene = SceneManager.GetActiveScene();
             SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-            spriteRenderer.sprite = Player6;
-            cam = Camera.main;
-            cam.orthographicSize =
-            cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, 11f, 23f);
-        }
 
-        switch(Dmg)
+
+            switch (currentScene.name)
+            {
+
+                case ("BossRoomOne"):
+                    UiManager.IsDead = true;
+                    StartCoroutine(ReloadSceneAfterDelay(5f));
+                    FreezePlayerMovement();
+                    spriteRenderer.sprite = Player7;
+                    cam = Camera.main;
+                    cam.orthographicSize = 2;
+                    cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, 11f, 23f); ; break;
+                case ("BossRoomTwo"):
+                    UiManager.IsDead = true;
+                    StartCoroutine(ReloadSceneAfterDelay(5f));
+                    FreezePlayerMovement();
+                    spriteRenderer.sprite = Player8;
+                    cam = Camera.main;
+                    cam.orthographicSize = 2;
+                    cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, 11f, 23f); break;
+                default:
+                    UiManager.IsDead = true;
+                    StartCoroutine(ReloadSceneAfterDelay(5f));
+                    FreezePlayerMovement();
+                    spriteRenderer.sprite = Player6;
+                    cam = Camera.main;
+                    cam.orthographicSize = 2;
+                    cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, 11f, 23f); break;  
+
+            }
+        }
+       
+
+        if (Hp > 0)
         {
-            case 2: {
-                    SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-                    spriteRenderer.sprite = Player5;
-                }
-                break;
+            if (Dmg ==2)
+            {
+                SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+                spriteRenderer.sprite = Player5;
+
+            }
+            else
+            {
+                SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+                spriteRenderer.sprite = Player1;
+            }
         }
     }
 
