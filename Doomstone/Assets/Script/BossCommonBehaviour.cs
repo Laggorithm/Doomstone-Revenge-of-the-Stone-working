@@ -187,11 +187,9 @@ public class BossCommonBehaviour : MonoBehaviour
         if (currentScene.name == "BossRoomTwo")
         {
 
-            Application.Quit();
+            
+             StartCoroutine(ReloadSceneAfterDelay(5f));
 
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#endif  
         }
     }
 
@@ -340,6 +338,15 @@ public class BossCommonBehaviour : MonoBehaviour
             directionToPlayer = (player.transform.position - extraRightShootingPoint.position).normalized;
             extraRightShootingPoint.right = directionToPlayer;
         }
+    }
+
+    private IEnumerator ReloadSceneAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif  
+        Application.Quit();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

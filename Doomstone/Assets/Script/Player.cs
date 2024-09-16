@@ -195,8 +195,8 @@ public class Player : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.y, jumpForce);
             if (bossCommonBehaviour.isPhaseTwo == true)
             {
-                rb.velocity = new Vector2(rb.velocity.x, 2* jumpForce);
-                rb.velocity = new Vector2(rb.velocity.y, 2* jumpForce);
+                rb.velocity = new Vector2(rb.velocity.x, 60);
+                rb.velocity = new Vector2(rb.velocity.y, 60);
             }
         }
         else if (collider.CompareTag("RedJumpPad"))
