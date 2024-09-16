@@ -19,7 +19,8 @@ public class BossCommonBehaviour : MonoBehaviour
     private float currentDistanceTraveled;
     public int MaxProjectiles;
     public int Projectilecd = 3;
-
+    private AudioSource audioSource;
+    public AudioSource BreakAudio;
     private Rigidbody2D rb;
 
     private Vector2 moveDirection;
@@ -88,6 +89,7 @@ public class BossCommonBehaviour : MonoBehaviour
             {
                 Hp = 20;
             }
+            
         }
 
         if (Hp <= 0)
@@ -105,6 +107,10 @@ public class BossCommonBehaviour : MonoBehaviour
 
         // Make extra shooting points face the player
         RotateShootingPoints();
+
+         
+            
+         
     }
 
     void InitializePhaseOne()
@@ -130,7 +136,8 @@ public class BossCommonBehaviour : MonoBehaviour
 
     void EnterPhaseTwo()
     {
-        
+        BreakAudio = GetComponent<AudioSource>();
+        BreakAudio.Play();
         Particles = GetComponent<ParticleSystem>();
         Particles.Play();
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
@@ -248,6 +255,8 @@ public class BossCommonBehaviour : MonoBehaviour
                 float jumpForce = attackId == 2 ? normalJumpForce * doubleJumpFactor : normalJumpForce;
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 isGrounded = false;
+                audioSource = GetComponent<AudioSource>();
+                audioSource.Play();
             }
 
             yield return new WaitForSeconds(3);
@@ -339,6 +348,7 @@ public class BossCommonBehaviour : MonoBehaviour
         {
             isGrounded = true;
             hasLaunchedProjectiles = false;
+            
         }
     }
 

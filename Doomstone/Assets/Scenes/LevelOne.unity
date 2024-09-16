@@ -3121,11 +3121,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8140149201587236038, guid: 7ab4859f2393fbf4eae0f4dbc5c53f18, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 67.297356
+      value: 72.7
       objectReference: {fileID: 0}
     - target: {fileID: 8140149201587236038, guid: 7ab4859f2393fbf4eae0f4dbc5c53f18, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -33.033173
+      value: -19
       objectReference: {fileID: 0}
     - target: {fileID: 8140149201587236038, guid: 7ab4859f2393fbf4eae0f4dbc5c53f18, type: 3}
       propertyPath: m_LocalPosition.z
@@ -10213,6 +10213,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4136013821631931129, guid: 19442651d7ab31f409882d68b52b1827, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ae93bbe658890ac488649bfc83172065, type: 3}
     - target: {fileID: 131671471692727577, guid: 19442651d7ab31f409882d68b52b1827, type: 3}
       propertyPath: m_Mass
       value: 20
@@ -10277,6 +10281,10 @@ PrefabInstance:
       propertyPath: cameraShake
       value: 
       objectReference: {fileID: 519420034}
+    - target: {fileID: 3391688545973234243, guid: 19442651d7ab31f409882d68b52b1827, type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 3948787707136779926}
     - target: {fileID: 3391688545973234243, guid: 19442651d7ab31f409882d68b52b1827, type: 3}
       propertyPath: Player1
       value: 
@@ -10368,6 +10376,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ceb6e8c35eb4d16419e2baf7c6774df7, type: 3}
+--- !u!20 &3948787707136779926 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 3948787707645566698, guid: ceb6e8c35eb4d16419e2baf7c6774df7, type: 3}
+  m_PrefabInstance: {fileID: 3948787707136779925}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4865935262613438173
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     public CameraShake cameraShake; // Reference to CameraShake script
     public static int Dmg = 1;
 
+    private AudioSource audioSource;
     public Camera cam;
 
     private Vector2 lastMovementDirection = Vector2.right; // Default to right
@@ -164,6 +165,9 @@ public class Player : MonoBehaviour
                 rb.AddTorque(desiredTorque, ForceMode2D.Impulse);
             }
 
+            
+
+
             isGrounded = false;
         }
     }
@@ -181,6 +185,8 @@ public class Player : MonoBehaviour
             jumpForce = 60;
             isFreezed = false;
             speed = 20;
+            audioSource = GetComponent<AudioSource>();
+            audioSource.Play();
         }
         else if (collider.CompareTag("Enemy"))
         {
