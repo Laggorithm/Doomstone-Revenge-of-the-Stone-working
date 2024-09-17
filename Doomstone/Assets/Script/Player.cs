@@ -124,6 +124,8 @@ public class Player : MonoBehaviour
             lastMovementDirection = new Vector2(moveInput, 0).normalized;
         }
 
+        
+
         // Apply movement input to velocity
         rb.velocity = new Vector2(movement.x, rb.velocity.y);
     }

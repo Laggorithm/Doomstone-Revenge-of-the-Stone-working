@@ -7,6 +7,7 @@ public class BossCommonBehaviour : MonoBehaviour
 {
     private List<int> AttackList = new List<int>();
     public Player player;
+    private DatabaseManager dbManager;
     public static int Hp = 5;
     public float moveSpeed = 5f;
     public float minTravelDistance = 5f;
@@ -165,17 +166,14 @@ public class BossCommonBehaviour : MonoBehaviour
         ShuffleList(AttackList);
         PrintAttackList();
     }
-    
+
     void GoDead()
     {
-
         Particles = GetComponent<ParticleSystem>();
-        
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-
         spriteRenderer.sprite = BossPhaseDead;
-        
-        extraLeftShootingPoint.gameObject.SetActive(false); 
+
+        extraLeftShootingPoint.gameObject.SetActive(false);
         extraRightShootingPoint.gameObject.SetActive(false);
 
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
@@ -186,12 +184,14 @@ public class BossCommonBehaviour : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene();
         if (currentScene.name == "BossRoomTwo")
         {
+            // Boss defeated, save the elapsed time in the database
+            dbManager.SaveElapsedTime((int)TimerManager.elapsedTime);
 
-            
-             StartCoroutine(ReloadSceneAfterDelay(5f));
-
+            // Reload the scene after a 5-second delay
+            StartCoroutine(ReloadSceneAfterDelay(5f));
         }
     }
+
 
     void ShuffleList(List<int> list)
     {
