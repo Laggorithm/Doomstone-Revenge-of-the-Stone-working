@@ -15,7 +15,7 @@ public class UiManager : MonoBehaviour
     public GameObject dead;
     public static bool IsDead;
 
-    private DatabaseManager dbManager;
+    public DatabaseManager dbManager;
 
     private void Awake()
     {

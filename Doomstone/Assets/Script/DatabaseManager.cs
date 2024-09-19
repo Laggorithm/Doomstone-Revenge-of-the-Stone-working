@@ -1,70 +1,26 @@
-using System;
-using System.IO;
 using System.Collections;
 using UnityEngine;
-using Mono.Data.Sqlite; // Ensure this is available in your project
+using UnityEngine.SceneManagement;
 
 public class DatabaseManager : MonoBehaviour
 {
-    private string dbPath;
     private int currentElapsedTime;
-     
+
     private const float saveInterval = 1f; // Interval in seconds
+    private const string elapsedTimeKey = "ElapsedTime";
 
     private void Start()
     {
-        dbPath = Path.Combine(Application.persistentDataPath, "gameData.db");
-        InitializeDatabase();
-        Debug.Log(dbPath);
-
-        if (dbPath == null)
-        {
-            Debug.Log("Path Error");
-        }
-
         // Start the coroutine to save elapsed time every second
         StartCoroutine(SaveElapsedTimeCoroutine());
     }
-
-    private void InitializeDatabase()
-    {
-        if (!File.Exists(dbPath))
-        {
-            CreateDatabase();
-        }
-        else
-        {
-            Debug.Log("Database already exists.");
-        }
-    }
-
-    private void CreateDatabase()
-    {
-        using (var connection = new SqliteConnection("Data Source=" + dbPath))
-        {
-            connection.Open();
-
-            using (var command = connection.CreateCommand())
-            {
-                command.CommandText = @"
-                    CREATE TABLE IF NOT EXISTS PlayerData (
-                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        ElapsedTime INTEGER
-                    );
-                ";
-                command.ExecuteNonQuery();
-            }
-
-            Debug.Log("Database and table created.");
-        }
-    }
-
+    
     private IEnumerator SaveElapsedTimeCoroutine()
     {
         while (true)
         {
             yield return new WaitForSeconds(saveInterval);
-            SaveElapsedTime(currentElapsedTime);
+            SaveElapsedTime((int)TimerManager.elapsedTime);
         }
     }
 
@@ -77,58 +33,30 @@ public class DatabaseManager : MonoBehaviour
     {
         int savedElapsedTime = LoadElapsedTime();
 
-        if (elapsedTime > savedElapsedTime)
+        if (TimerManager.elapsedTime > savedElapsedTime || savedElapsedTime == 0)
         {
-            using (var connection = new SqliteConnection("Data Source=" + dbPath))
-            {
-                connection.Open();
-
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = @"
-                        INSERT INTO PlayerData (ElapsedTime)
-                        VALUES (@elapsedTime);
-                    ";
-                    command.Parameters.AddWithValue("@elapsedTime", elapsedTime);
-                    command.ExecuteNonQuery();
-                }
-
-                Debug.Log("ElapsedTime updated in SQLite database.");
-            }
+            PlayerPrefs.SetInt(elapsedTimeKey, elapsedTime);
+            PlayerPrefs.Save(); // Ensures the data is written immediately
+            Debug.Log("ElapsedTime saved using PlayerPrefs.");
         }
-        else
+        else if (TimerManager.elapsedTime < savedElapsedTime || savedElapsedTime > 0)
         {
-            Debug.Log("Current elapsed time is not greater than saved elapsed time. No update needed.");
+            PlayerPrefs.SetInt(elapsedTimeKey, elapsedTime);
+            PlayerPrefs.Save();
+            Debug.Log("ElapsedTime saved as a new record using PlayerPrefs.");
         }
     }
 
     public int LoadElapsedTime()
     {
-        int elapsedTime = 0;
-
-        using (var connection = new SqliteConnection("Data Source=" + dbPath))
+        if (PlayerPrefs.HasKey(elapsedTimeKey))
         {
-            connection.Open();
-
-            using (var command = connection.CreateCommand())
-            {
-                command.CommandText = @"
-                    SELECT ElapsedTime
-                    FROM PlayerData
-                    ORDER BY Id DESC
-                    LIMIT 1;
-                ";
-                using (var reader = command.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        elapsedTime = reader.GetInt32(0);
-                    }
-                }
-            }
+            int elapsedTime = PlayerPrefs.GetInt(elapsedTimeKey);
+            Debug.Log("ElapsedTime loaded using PlayerPrefs.");
+            return elapsedTime;
         }
 
-        Debug.Log("ElapsedTime loaded from SQLite database.");
-        return elapsedTime;
+        Debug.Log("No ElapsedTime record found in PlayerPrefs.");
+        return 0;
     }
 }

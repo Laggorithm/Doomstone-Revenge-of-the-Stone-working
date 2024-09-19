@@ -7,7 +7,7 @@ public class BossCommonBehaviour : MonoBehaviour
 {
     private List<int> AttackList = new List<int>();
     public Player player;
-    private DatabaseManager dbManager;
+   
     public static int Hp = 5;
     public float moveSpeed = 5f;
     public float minTravelDistance = 5f;
@@ -185,10 +185,10 @@ public class BossCommonBehaviour : MonoBehaviour
         if (currentScene.name == "BossRoomTwo")
         {
             // Boss defeated, save the elapsed time in the database
-            dbManager.SaveElapsedTime((int)TimerManager.elapsedTime);
+             
 
             // Reload the scene after a 5-second delay
-            StartCoroutine(ReloadSceneAfterDelay(5f));
+            StartCoroutine(QuitSceneAfterDelay(3f));
         }
     }
 
@@ -340,7 +340,7 @@ public class BossCommonBehaviour : MonoBehaviour
         }
     }
 
-    private IEnumerator ReloadSceneAfterDelay(float delay)
+    private IEnumerator QuitSceneAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
 #if UNITY_EDITOR

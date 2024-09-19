@@ -384,6 +384,18 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 853889188}
+    - target: {fileID: 5809987203932848804, guid: cb07928930dd6124a84220ee57e684d5, type: 3}
+      propertyPath: MaxProjectiles
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5809987203932848804, guid: cb07928930dd6124a84220ee57e684d5, type: 3}
+      propertyPath: projectileLifetime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5809987203932848804, guid: cb07928930dd6124a84220ee57e684d5, type: 3}
+      propertyPath: projectileLaunchDelay
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5809987203932848806, guid: cb07928930dd6124a84220ee57e684d5, type: 3}
       propertyPath: m_RootOrder
       value: 4
